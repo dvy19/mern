@@ -1,5 +1,26 @@
 const mongoose = require("mongoose");
 
+/*
+schema => rules for the documents
+
+mongoose.Schema is a Mongoose class/function that creates a schema object.
+
+Other common type includes, 
+    String
+    Number
+    Boolean
+    Date
+    Array
+    ObjectId
+
+trim => removes space from both back and front side
+
+using timestamps,
+    mongoDB automatically adds createAt adn updatedAt
+
+*/
+
+// here we only define the rules, constraints and types
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -26,6 +47,20 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+
+// here we create the actual model
 const User = mongoose.model("User", userSchema);
+
+/*
+this User model gives us the methods like
+
+User.create()
+User.findOne()
+User.find()
+User.findById()
+User.findByIdAndUpdate()
+User.deleteOne()
+
+*/
 
 module.exports = User;

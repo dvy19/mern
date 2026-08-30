@@ -1,0 +1,4 @@
+mongoDB is more like firebase firestore No SQL with collection and document structure
+we can use neon as SQL db here, 
+express does not have its own ORM like in django
+either we write SQL queries or use prisma, drizzle as ORM
