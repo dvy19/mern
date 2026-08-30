@@ -1,20 +1,47 @@
+/*
+contains the actual auth logic of backend
+registration and login
+
+common res methods
+    res.status(200)       // Set status
+    res.json({...})       // Send JSON
+    res.send("Hello")     // Send text/data
+    res.end()             // End response
+*/
+
+// a js library,  used to hash password and store in db
+// during login, it matches the password with stored in db
 const bcrypt = require("bcryptjs");
+
+
+// importing User model => a mongoose model with which built-in functions like findOne and create can work
 const User = require("../models/User");
 
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
     try {
+
+        // object destructing => extracting keys of a variable into variables
         const { name, email, password } = req.body;
 
-        // 1. Check required fields
+        /*
+        const name = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
+        */
+
+        // res is a Response object from Express, sends the response in JSON format. Also sets the status code
         if (!name || !email || !password) {
             return res.status(400).json({
                 message: "Name, email and password are required"
             });
         }
 
-        // 2. Check if user already exists
+    
+        // findOne() is a Mongoose method used to search MongoDB for one document
+        // Search the User collection and give me the first document where email is abc@gmail.com.
+        // find is used for an array of matching documents
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
@@ -23,10 +50,11 @@ const register = async (req, res) => {
             });
         }
 
-        // 3. Hash password
+       
         const hashedPassword = await bcrypt.hash(password, 10);
+        // 10 is the salt rounds — higher means more computationally expensive and generally more resistant to brute-force attacks.
 
-        // 4. Create user
+        // creating a user document and save
         const user = await User.create({
             name,
             email,
