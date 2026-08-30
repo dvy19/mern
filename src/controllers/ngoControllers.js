@@ -1,6 +1,8 @@
 
 const Ngo=require("../models/Ngo")
 
+const cloudinary = require("../config/cloudinary");
+
 const createNgo=async(req,res)=>{
 
     try{
@@ -10,6 +12,29 @@ const createNgo=async(req,res)=>{
 
         const user=req.user.userId;
         console.log(user)
+
+        let logoUrl = null;
+
+        if (req.file) {
+            const result = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "ngo_logos"
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result);
+                        }
+                    }
+                );
+
+                uploadStream.end(req.file.buffer);
+            });
+
+            logoUrl = result.secure_url;
+        }
 
         const existNgo=await Ngo.findOne({user})
 
@@ -30,6 +55,7 @@ const createNgo=async(req,res)=>{
             user,
             bio,
             category,
+            logo:logoUrl
         })
 
 

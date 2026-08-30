@@ -12,7 +12,7 @@ const {
 const router=express.Router()
 
 
-router.post("/createNgo",authMiddleware,createNgo)
+router.post("/", upload.single("logo"), authMiddleware, createNgo);
 
 router.get("/getAllNgo",getAllNgos)
 router.get("/:id",getNgoById)
