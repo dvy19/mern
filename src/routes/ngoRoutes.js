@@ -3,12 +3,19 @@ const express=require("express")
 
 const authMiddleware=require("../middleware/authMiddleware")
 
-const {createNgo}=require("../controllers/ngoControllers")
+const {
+    createNgo , 
+    getAllNgos,
+    getNgoById
+}=require("../controllers/ngoControllers")
 
 const router=express.Router()
 
 
 router.post("/createNgo",authMiddleware,createNgo)
+
+router.get("/getAllNgo",getAllNgos)
+router.get("/:id",getNgoById)
 
 module.exports=router
 

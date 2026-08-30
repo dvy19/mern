@@ -56,6 +56,81 @@ const createNgo=async(req,res)=>{
     }
 }
 
+// get all NGOs using .find
+
+const getAllNgos = async (req, res) => {
+    try {
+
+
+        // /api/ngos?name=helping
+
+        // req.query.name = helping
+        const{name,category}=req.query;
+
+        // MongoDB's find() expects a query/filter object.
+        let filter={};
+
+        // regex => allows partial matching
+        // options => makes it case-insensitive
+        if (name) {
+            filter.name = {
+                $regex: name,
+                $options: "i"
+            };
+        }
+
+        // Filter by category
+        // /api/ngos?category=Education
+        if (category) {
+            filter.category = category;
+        }
+
+        // /api/ngos?name=help&category=Education
+
+        const ngos = await Ngo.find(filter);
+
+        res.status(200).json({
+            count: ngos.length,
+            ngos
+        });
+    } 
+    catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch NGOs",
+            error: error.message
+        });
+    }
+};
+
+// getting particular NGO
+
+const getNgoById = async (req, res) => {
+    try {
+
+        // Ngo.find().populate("user")
+        // Ngo.findById(req.params.id).populate("user")
+        const ngo = await Ngo.findById(req.params.id);
+
+        if (!ngo) {
+            return res.status(404).json({
+                message: "NGO not found"
+            });
+        }
+
+        res.status(200).json(ngo);
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch NGO",
+            error: error.message
+        });
+    }
+};
+
 
 // an object is exported
-module.exports={createNgo}
+module.exports={
+    createNgo,
+    getAllNgos,
+    getNgoById
+}
