@@ -9,13 +9,19 @@ const {
     getNgoById
 }=require("../controllers/ngoControllers")
 
+const createCampaign=require("../controllers/campaignController")
+
+const upload=require("../middleware/upload")
+
 const router=express.Router()
 
 
-router.post("/", upload.single("logo"), authMiddleware, createNgo);
+router.post("/create-ngo", upload.single("logo"), authMiddleware, createNgo);
 
 router.get("/getAllNgo",getAllNgos)
 router.get("/:id",getNgoById)
+
+router.get("/create-campaign",createCampaign)
 
 module.exports=router
 

@@ -21,7 +21,7 @@ const ngoSchema = new mongoose.Schema({
         required: true
     },
 
-    logo:string,
+    logo:String,
 
     established: {
         type: Number,

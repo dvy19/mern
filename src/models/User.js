@@ -47,9 +47,33 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+const userDetail= new mongoose.Schema(
+
+    {
+        name:String,
+        city:String,
+        gender: {
+            type: String,
+            enum: ["male", "female", "other"]
+            },
+        age:Number,
+        qualification:String,
+
+        user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+                required: true,
+                unique: true
+            }
+
+    }
+)
+
 
 // here we create the actual model
 const User = mongoose.model("User", userSchema);
+
+const UserProfile=mongoose.model("UserProfile",userDetail)
 
 /*
 this User model gives us the methods like
@@ -63,4 +87,4 @@ User.deleteOne()
 
 */
 
-module.exports = User;
+module.exports = {User ,UserProfile};
