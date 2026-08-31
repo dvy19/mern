@@ -4,6 +4,7 @@ main entry point of your Express backend.
 
 
 const express = require("express");
+const cors=require("cors")
 
 require("dotenv").config();
 
@@ -15,6 +16,11 @@ const authRoutes = require("./routes/authRoutes");
 
 // creates the express application
 const app = express();
+
+
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 
 
 // a middleware to understand the json data
