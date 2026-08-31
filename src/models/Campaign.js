@@ -9,14 +9,41 @@ const createCampaign= new mong.Schema({
         location:String,
 
         ngo:{
-            type: mongoose.Schema.Types.ObjectId,
+            type: mong.Schema.Types.ObjectId,
             ref: "Ngo",
             required: true,
-            unique: true
+            
         }
 
 })
 
+const joinRequest=new mong.Schema({
+    user: {
+        type: mong.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+
+    campaign: {
+        type: mong.Schema.Types.ObjectId,
+        ref: "Campaign",
+        required: true
+    },
+
+    status:{
+        type:String,
+        enum:["pending", "accepted","rejected"],
+        default:"pending"
+    }
+},
+    {
+        timestamp:true
+    }
+
+)
+
 const Campaign=mong.model("campaigns" , createCampaign)
 
-module.exports=Campaign
+const JoinRequest=mong.model('joinReq',joinRequest)
+
+module.exports={Campaign , JoinRequest}
