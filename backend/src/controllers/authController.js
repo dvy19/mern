@@ -61,12 +61,19 @@ const register = async (req, res) => {
             password: hashedPassword
         });
 
-        const token = jwt.sign(
+        const accessToken = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "15m" }
         );
 
+        // Store token in HTTP-only cookie
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: false, // true in production with HTTPS
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000
+        });
 
         // 5. Send response
         res.status(201).json({
@@ -76,7 +83,6 @@ const register = async (req, res) => {
                 name: user.name,
                 email: user.email
             },
-            token
         });
 
     } catch (error) {
@@ -119,17 +125,25 @@ const login = async (req, res) => {
             });
         }
 
-        // manually creating JWT => valid for 1 day
-        const token = jwt.sign(
-            {
-                userId: user._id
-            },
+        const accessToken = jwt.sign(
+            { userId: user._id },
             process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
+            { expiresIn: "15m" }
         );
 
+        // Store token in HTTP-only cookie
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: false, // true in production with HTTPS
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000
+        });
+
+            if (!token) {
+                return res.status(401).json({
+                    message: "Authentication required"
+                });
+            }
         res.status(200).json({
             message: "Login successful",
             token

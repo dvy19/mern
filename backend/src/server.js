@@ -13,18 +13,23 @@ const connectDB = require("./config/db");
 
 // getting auth routes
 const authRoutes = require("./routes/authRoutes");
+const cookieParser = require("cookie-parser");
+
 
 // creates the express application
 const app = express();
 
 
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://localhost:5173",
+    credentials:true
 }));
 
 
 // a middleware to understand the json data
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 
