@@ -1,7 +1,15 @@
 import React from 'react';
 import './ngo.css';
+import { useNavigate } from 'react-router-dom';
 
-export default function NgoCard({ name, logo }) {
+export default function NgoCard({ name, logo , id }) {
+
+  const navigate=useNavigate()
+
+  const toNgo=()=>{
+    navigate(`/NgoDetailsCard/${id}`)
+
+  }
   return (
     <div className="ngo-card">
       <div className="ngo-logo-wrapper">
@@ -12,6 +20,7 @@ export default function NgoCard({ name, logo }) {
         />
       </div>
       <h3 className="ngo-name">{name}</h3>
+      <button onClick={toNgo}>View Details</button>
     </div>
   );
 }

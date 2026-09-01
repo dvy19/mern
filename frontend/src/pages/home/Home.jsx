@@ -53,7 +53,8 @@ const Home = () => {
             <NgoCard 
               key={item._id || item.id} 
               name={item.name} 
-              logo={item.logo} 
+              logo={item.logo}
+              id={item._id || item.id}
             />
           ))}
         </div>

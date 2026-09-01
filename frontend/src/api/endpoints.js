@@ -7,6 +7,8 @@ const endpoints={
 
     GET_ALL_NGO:"ngo/getAllNgo",
 
+    SINGLE_NGO :(id)=>`ngo/${id}`,
+
 }
 
 export default endpoints
