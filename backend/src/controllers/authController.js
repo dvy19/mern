@@ -139,14 +139,15 @@ const login = async (req, res) => {
             maxAge: 15 * 60 * 1000
         });
 
-            if (!token) {
-                return res.status(401).json({
-                    message: "Authentication required"
-                });
-            }
+            
         res.status(200).json({
             message: "Login successful",
-            token
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            },
+
         });
 
     } catch (error) {

@@ -3,7 +3,9 @@
 const endpoints={
 
     LOGIN:"auth/login",
-    REGISTER:"auth/register"
+    REGISTER:"auth/register",
+
+    GET_ALL_NGO:"ngo/getAllNgo",
 
 }
 

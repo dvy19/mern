@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import './register.css';
 
 import authService from '../service/authService'
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   
     const[name,setName]=useState('');
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('')
+
+    const navigate=useNavigate()
 
 
   const handleSubmit =async (e) => {
@@ -21,6 +24,8 @@ export default function Register() {
         })
 
         console.log(data)
+        navigate('/home')
+
     }
     catch(err){
         console.log(`${err}`)

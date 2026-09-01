@@ -1,0 +1,56 @@
+.home-section {
+  padding: 24px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.home-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+}
+
+.ngo-list-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 4px 16px 4px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; 
+}
+
+.ngo-list-horizontal::-webkit-scrollbar {
+  height: 6px;
+}
+
+.ngo-list-horizontal::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.ngo-list-horizontal::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.ngo-list-horizontal::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.ngo-list-horizontal > * {
+  flex: 0 0 auto;
+}
+
+.status-message {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.status-message.error {
+  color: #ef4444;
+}
