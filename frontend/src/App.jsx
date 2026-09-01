@@ -10,6 +10,8 @@ import Home from './pages/home/Home'
 import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import NgoDetailCard from './components/NgoDetailsCard'
 
+import CampaignDetailsCard from './pages/CampaignDetails'
+
 function App() {
   
 
@@ -26,6 +28,9 @@ function App() {
         <Route path="/home" element={<Home/>}/>
 
         <Route path='/NgoDetailsCard/:id' element={<NgoDetailCard></NgoDetailCard>}/>
+
+        <Route path='/CampaignDetails/:id' element={<CampaignDetailsCard/>}/>
+
 
 
 

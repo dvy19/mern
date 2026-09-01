@@ -15,6 +15,21 @@ export const ngoService={
         const data=await api.get(`${endpoints.SINGLE_NGO(id)}`)
         return data.data
 
+    },
+
+    getAllCampaigns:async()=>{
+
+        const res=await api.get(endpoints.GET_ALL_CAMPAIGNS)
+
+        return res.data
+    },
+
+    getSingleCamp:async(id)=>{
+
+        const data=await api.get(`${endpoints.GET_SINGLE_CAMP(id)}`)
+
+        return data.data
+
     }
 }
 

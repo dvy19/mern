@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import './login.css';
-
+import authService from '../service/authService';
+import {useNavigate} from 'react-router-dom'
 export default function Login() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+  const[name,setName]=useState('');
+    const[email,setEmail]=useState('');
+    const[password,setPassword]=useState('')
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+    const navigate=useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const handleSubmit =async (e) => {
+    e.preventDefault()
+
+    console.log("clicked")
+
+    try{
+        const data=await authService.login({
+            name, email, password
+        })
+
+        console.log(data)
+        navigate('/home')
+
+    }
+    catch(err){
+        console.log(`${err}`)
+    }
   };
 
   return (
@@ -29,8 +39,8 @@ export default function Login() {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
-            onChange={handleChange}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -41,8 +51,8 @@ export default function Login() {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -53,8 +63,8 @@ export default function Login() {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>

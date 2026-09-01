@@ -46,6 +46,46 @@ const createCampaign=async(req,res)=>{
     }
 }
 
+const getAllCampaign=async(req,res)=>{
+    
+    try{
+
+
+        const campaign=await Campaign.find()
+
+        console.log("Campaign:", campaign);
+
+
+        res.status(200).json({
+            count:campaign.length,
+            campaign
+        })
+    }
+     catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch Campaigns",
+            error: error.message
+        });
+    }
+}
+
+const getSingleCampaign=async(req,res)=>{
+
+    try{
+
+        const camp=await Campaign.findById(req.params.id)
+
+        res.status(201).json({
+            camp
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch Campaign",
+            error: error.message
+        });
+    }
+}
 
 const createJointRequest=async(req,res)=>{
 
@@ -96,4 +136,4 @@ const createJointRequest=async(req,res)=>{
 
 }
 
-module.exports={createCampaign , createJointRequest}
+module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign}

@@ -4,6 +4,7 @@ import './home.css';
 import { useNavigate } from 'react-router-dom';
 
 import {ngoService} from '../../service/ngoService'
+import CampaignCard from '../../components/CampaignCard';
 
 const Home = () => {
 
@@ -40,6 +41,27 @@ const Home = () => {
     getNgo();
   }, []);
 
+  const[camp,setCamp]=useState([]);
+  
+      const getCamp=async()=>{
+  
+          try{
+  
+              const res=await ngoService.getAllCampaigns()
+  
+              setCamp(res.campaign)
+              console.log(res.campaign)
+          }
+          catch(err){
+              console.log(`${err}`)
+          }
+      }
+  
+      useEffect(()=>{
+          getCamp()
+      }, [])
+  
+
   return (
     <section className="home-section">
       <h2 className="home-title">Featured NGOs</h2>
@@ -56,6 +78,22 @@ const Home = () => {
               logo={item.logo}
               id={item._id || item.id}
             />
+          ))}
+        </div>
+      )}
+
+      <h2 className="home-title">Featured Campaigns</h2>
+
+      {loading && <p className="status-message">Loading Campaigns...</p>}
+      {error && <p className="status-message error">Failed to load Campaigns. Please try again later.</p>}
+
+      {!loading && !error && (
+        <div className="ngo-list-horizontal">
+          {camp.map((item) => (
+              <CampaignCard
+                key={item._id}
+                camp={item}
+              />
           ))}
         </div>
       )}
