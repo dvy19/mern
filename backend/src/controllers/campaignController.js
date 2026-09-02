@@ -51,7 +51,18 @@ const getAllCampaign=async(req,res)=>{
     try{
 
 
-        const campaign=await Campaign.find()
+        const {active}=req.query;
+
+        let filter={};
+
+        // using strict equality, because query parameters are string
+        // converts string "true" to boolean true
+        if (active !== undefined) {
+            filter.active = active === "true";
+        }
+
+
+        const campaign=await Campaign.find(filter).populate("ngo");
 
         console.log("Campaign:", campaign);
 

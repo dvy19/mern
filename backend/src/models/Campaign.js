@@ -11,8 +11,7 @@ const createCampaign= new mong.Schema({
         ngo:{
             type: mong.Schema.Types.ObjectId,
             ref: "Ngo",
-            required: true,
-            
+            required: true, 
         }
 
 })

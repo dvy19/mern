@@ -14,6 +14,12 @@ export default function CampaignDetailCard() {
     {"camp":{"_id":"6a94df444fb332ba6f4d06a4","title":"faldaar","description":"plantation drive","category":"plant","active":true,"location":"kanput nearby","ngo":"6a94dce76fd4d050181bcfce","__v":0}}
     */
 
+    const toJoin=()=>{
+
+      
+
+    }
+
     const getCamp=async()=>{
 
         try{
@@ -57,6 +63,8 @@ export default function CampaignDetailCard() {
           <strong>Location:</strong> 📍 {camp.location}
         </p>
       </div>
+
+      <button onClick={toJoin}>Join</button>
     </div>
   );
 }

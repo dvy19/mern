@@ -54,9 +54,13 @@ const getUserProfile=async(req,res)=>{
     try{
         console.log("REQ.USER:", req.user);
         console.log("USER ID:", req.user?.userId);
-        const user=await UserProfile.findOne({
-    user: req.user.userId
-});
+
+        // const user=await UserProfile.findById(req.user.userId)
+
+        const user = await UserProfile.findOne({
+            user: req.user.userId
+        });
+        
         if (!user) {
             return res.status(404).json({
                 message: "User profile not found"

@@ -17,9 +17,13 @@ export const ngoService={
 
     },
 
-    getAllCampaigns:async()=>{
+    getAllCampaigns:async(active)=>{
 
-        const res=await api.get(endpoints.GET_ALL_CAMPAIGNS)
+        const res=await api.get(endpoints.GET_ALL_CAMPAIGNS,{
+            params: {
+                active: active
+            }
+        })
 
         return res.data
     },

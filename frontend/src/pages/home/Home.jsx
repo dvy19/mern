@@ -43,11 +43,11 @@ const Home = () => {
 
   const[camp,setCamp]=useState([]);
   
-      const getCamp=async()=>{
+  const getCamp=async(active)=>{
   
           try{
   
-              const res=await ngoService.getAllCampaigns()
+              const res=await ngoService.getAllCampaigns(active)
   
               setCamp(res.campaign)
               console.log(res.campaign)
@@ -57,8 +57,8 @@ const Home = () => {
           }
       }
   
-      useEffect(()=>{
-          getCamp()
+      useEffect((active)=>{
+          getCamp(active)
       }, [])
   
 
@@ -89,6 +89,9 @@ const Home = () => {
 
       {loading && <p className="status-message">Loading Campaigns...</p>}
       {error && <p className="status-message error">Failed to load Campaigns. Please try again later.</p>}
+
+      <button className='btn-header' onClick={()=>getCamp(true)}>Active</button>
+      <button className='btn-header' onClick={()=>getCamp()}>All</button>
 
       {!loading && !error && (
         <div className="ngo-list-horizontal">
