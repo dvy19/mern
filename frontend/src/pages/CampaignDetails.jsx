@@ -3,22 +3,20 @@ import './CampaignDetails.css';
 
 import{ ngoService }from '../service/ngoService'
 
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 export default function CampaignDetailCard() {
 
     const[camp,setCamp]=useState({})
 
     const {id}=useParams()
 
+    const navigate=useNavigate()
+
     /*
     {"camp":{"_id":"6a94df444fb332ba6f4d06a4","title":"faldaar","description":"plantation drive","category":"plant","active":true,"location":"kanput nearby","ngo":"6a94dce76fd4d050181bcfce","__v":0}}
     */
 
-    const toJoin=()=>{
-
-      
-
-    }
+    
 
     const getCamp=async()=>{
 
@@ -39,6 +37,11 @@ export default function CampaignDetailCard() {
     useEffect(()=>{
         getCamp()
     } , [id])
+
+    const toJoin=()=>{
+      navigate(`/join/${camp._id}`)
+      console.log(`/join/${camp._id}`)
+    }
  
 
   return (
@@ -54,7 +57,8 @@ export default function CampaignDetailCard() {
 
       <div className="campaign-detail-info">
         <p className="campaign-detail-item">
-          <strong>Organized by:</strong> {camp.ngo}
+          {/*If camp.ngo exists, access title. If it doesn't exist, just return undefined instead of throwing an error.*/}
+          <strong>Organized by:</strong> {camp.ngo?.title}
         </p>
         <p className="campaign-detail-item">
           <strong>Lead Contact:</strong> {camp.name}

@@ -36,6 +36,11 @@ export const ngoService={
 
     },
 
+    createJoin:async(id)=>{
+        const data=await api.post(`${endpoints.CREATE_JOIN(id)}`)
+        return data.data
+    }
+
     
 }
 

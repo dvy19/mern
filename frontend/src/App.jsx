@@ -12,6 +12,7 @@ import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import NgoDetailCard from './components/NgoDetailsCard'
 
 import CampaignDetailsCard from './pages/CampaignDetails'
+import Join from './pages/join/Join'
 
 function App() {
   
@@ -33,6 +34,8 @@ function App() {
         <Route path='/CampaignDetails/:id' element={<CampaignDetailsCard/>}/>
 
         <Route path='/profile' element={<Profile/>}/>
+
+        <Route path='/join/:id' element={<Join/>}/>
 
 
 
