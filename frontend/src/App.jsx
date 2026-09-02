@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Home from './pages/home/Home'
+import Profile from './pages/profile/Profile'
 
 
 
@@ -30,6 +31,9 @@ function App() {
         <Route path='/NgoDetailsCard/:id' element={<NgoDetailCard></NgoDetailCard>}/>
 
         <Route path='/CampaignDetails/:id' element={<CampaignDetailsCard/>}/>
+
+        <Route path='/profile' element={<Profile/>}/>
+
 
 
 

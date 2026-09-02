@@ -9,7 +9,7 @@ const {
     login
 } = require("../controllers/authController");
 
-const createUserProfile=require("../controllers/userController")
+const {createUserProfile , getUserProfile}=require("../controllers/userController")
 
 const authMiddleware=require("../middleware/authMiddleware")
 
@@ -21,5 +21,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 router.post("/create-user" , authMiddleware,createUserProfile )
+router.get("/get-user" , authMiddleware,getUserProfile )
+
 
 module.exports = router;

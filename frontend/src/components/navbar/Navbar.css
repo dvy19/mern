@@ -1,0 +1,81 @@
+/* Container reset & layout */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Left: Logo Section */
+.navbar-logo a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.logo-img {
+  height: 32px;
+  width: auto;
+}
+
+/* Center: Menu Items */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu a {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar-menu a:hover {
+  color: #111827;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
+}
+
+/* Right: Profile Button */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile-btn:hover {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+/* Responsive collapse for small screens */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none; /* Hide menu links on small mobile view */
+  }
+}

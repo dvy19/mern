@@ -30,6 +30,8 @@ export const ngoService={
 
         return data.data
 
-    }
+    },
+
+    
 }
 

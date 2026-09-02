@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NgoCard from '../../components/ngo'
 import './home.css';
 import { useNavigate } from 'react-router-dom';
-
+ import Navbar from '../../components/navbar/Navbar'
 import {ngoService} from '../../service/ngoService'
 import CampaignCard from '../../components/CampaignCard';
 
@@ -63,7 +63,10 @@ const Home = () => {
   
 
   return (
+   <>
+   <Navbar></Navbar>
     <section className="home-section">
+      
       <h2 className="home-title">Featured NGOs</h2>
 
       {loading && <p className="status-message">Loading NGOs...</p>}
@@ -98,6 +101,7 @@ const Home = () => {
         </div>
       )}
     </section>
+   </>
   );
 };
 

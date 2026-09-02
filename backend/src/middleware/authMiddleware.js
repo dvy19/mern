@@ -1,6 +1,9 @@
+const jwt = require("jsonwebtoken");
 const authMiddleware = (req, res, next) => {
     try {
         // Get token from HTTP-only cookie
+
+        console.log(req.cookies)
         const token = req.cookies.accessToken;
 
         if (!token) {
@@ -22,7 +25,9 @@ const authMiddleware = (req, res, next) => {
 
         next();
 
-    } catch (error) {
+    } catch (err) {
+         console.log("AUTH ERROR:", err.name);
+    console.log("AUTH ERROR MESSAGE:", err.message);
         return res.status(401).json({
             message: "Invalid or expired token"
         });

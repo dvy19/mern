@@ -49,4 +49,39 @@ const createUserProfile=async(req,res)=>{
 
 }
 
-module.exports=createUserProfile
+const getUserProfile=async(req,res)=>{
+
+    try{
+        console.log("REQ.USER:", req.user);
+        console.log("USER ID:", req.user?.userId);
+        const user=await UserProfile.findOne({
+    user: req.user.userId
+});
+        if (!user) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        // for getting something, user 200
+        // 201 is for creating something
+        res.status(200).json({
+            message:"Profile retreived",
+            user
+        })
+
+    
+    } 
+    catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+
+
+}
+
+
+module.exports={createUserProfile , getUserProfile}
