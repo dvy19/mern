@@ -6,6 +6,12 @@ main entry point of your Express backend.
 const express = require("express");
 const cors=require("cors")
 
+const http = require("http");
+const {
+    initializeSocket
+} = require("../src/socket");
+
+
 require("dotenv").config();
 
 // connect to the database
@@ -19,12 +25,16 @@ const cookieParser = require("cookie-parser");
 // creates the express application
 const app = express();
 
+const server=http.createServer(app)
+
+initializeSocket(server);
+
+
 
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }));
-
 
 // a middleware to understand the json data
 app.use(express.json());
@@ -59,7 +69,7 @@ const startServer = async () => {
     }
 
     // after success, the 2nd argument function will run
-    app.listen(PORT, startIt);
+    server.listen(PORT, startIt);
 };
 
 startServer();

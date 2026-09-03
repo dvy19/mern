@@ -7,10 +7,12 @@ import '../profile/Profile.css'
 
 import './Join.css'
 import { ngoService } from '../../service/ngoService'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 const Join = () => {
 
     const {id}=useParams()
+
+    const navigate=useNavigate()
 
     console.log(id)
 
@@ -96,6 +98,11 @@ const Join = () => {
           rows="4"
         />
         <button type="button" className="message-submit-btn" onClick={sendJoin}>
+          Send Join Request
+        </button>
+
+        
+        <button type="button" className="message-submit-btn" onClick={()=>{navigate('/test-socket')}}>
           Send Join Request
         </button>
       </div>

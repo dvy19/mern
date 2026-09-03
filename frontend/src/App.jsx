@@ -13,6 +13,7 @@ import NgoDetailCard from './components/NgoDetailsCard'
 
 import CampaignDetailsCard from './pages/CampaignDetails'
 import Join from './pages/join/Join'
+import TestSocket from '../src/components/Testcomponent'
 
 function App() {
   
@@ -36,6 +37,8 @@ function App() {
         <Route path='/profile' element={<Profile/>}/>
 
         <Route path='/join/:id' element={<Join/>}/>
+
+        <Route path='/test-socket' element={<TestSocket/>}/>
 
 
 

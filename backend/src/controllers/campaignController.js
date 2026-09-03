@@ -2,6 +2,8 @@ const {Campaign}=require("../models/Campaign")
 
 const Ngo=require("../models/Ngo")
 
+const {getIO }=require("../socket")
+
 const {JoinRequest}=require("../models/Campaign")
 
 const createCampaign=async(req,res)=>{
@@ -84,7 +86,7 @@ const getSingleCampaign=async(req,res)=>{
 
     try{
 
-        const camp=await Campaign.findById(req.params.id)
+        const camp=await Campaign.findById(req.params.id).populate("ngo")
 
         res.status(201).json({
             camp
@@ -97,54 +99,76 @@ const getSingleCampaign=async(req,res)=>{
         });
     }
 }
+const createJointRequest = async (req, res) => {
 
-const createJointRequest=async(req,res)=>{
+    try {
 
-    try{
-        const user=req.user.userId;
-        const campaign=req.params.campaignId
+        console.log("REQ.USER:", req.user);
+
+        const user = req.user.userId;
+
+        console.log("USER:", user);
+
+        const campaign = req.params.campaignId;
 
         const existingCampaign = await Campaign.findById(campaign);
-        
-        if (!existingCampaign) { 
-            return res.status(404).json(
-                { 
-                    message: "Campaign not found" 
-                }
-            );
+
+        if (!existingCampaign) {
+            return res.status(404).json({
+                message: "Campaign not found"
+            });
         }
 
-        const joinExist=await JoinRequest.findOne({
-            user, campaign
-        })
 
+        const joinExist = await JoinRequest.findOne({
+            user,
+            campaign
+        });
+
+        /*
         if (joinExist) {
-            return res.status(400).json(
-                { 
-                    message: "You have already requested this campaign" 
-                }
-            ); 
+            return res.status(400).json({
+                message: "You have already requested this campaign"
+            });
         }
 
+        */
 
-        const request=await JoinRequest.create({
+        const request = await JoinRequest.create({
             user,
             campaign,
-            status:"pending"
-        })
+            status: "pending"
+        });
 
-        res.status(201).json({
-            message:"join request send",
+
+        // Socket.IO
+        const io = getIO();
+
+        io.to(existingCampaign.ngo.toString()).emit(
+            "newJoinRequest",
+            {
+                message: "New join request received",
+                requestId: request._id,
+                campaignId: campaign,
+                userId: user
+            }
+        );
+
+
+        return res.status(201).json({
+            message: "join request sent",
             request
-        })
+        });
+
     }
-    catch(err){
-        console.log(`${err}`)
+    catch (err) {
+
+        console.log(err);
+
+        return res.status(500).json({
+            message: "Server error"
+        });
     }
-
-
-
-
-}
+};
 
 module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign}
