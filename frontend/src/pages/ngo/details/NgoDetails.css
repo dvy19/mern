@@ -1,0 +1,107 @@
+/* Container Wrapper */
+.ngo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Card Styling */
+.ngo-form {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+.ngo-form-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+/* Two-column layout row */
+.ngo-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.ngo-row .ngo-group {
+  flex: 1;
+}
+
+/* Form Groups */
+.ngo-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.ngo-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.4rem;
+}
+
+.ngo-group input,
+.ngo-group select,
+.ngo-group textarea {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  color: #111827;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.ngo-group textarea {
+  resize: vertical;
+}
+
+.ngo-group input:focus,
+.ngo-group select:focus,
+.ngo-group textarea:focus {
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.ngo-group select {
+  appearance: auto;
+  cursor: pointer;
+}
+
+/* Submit Button */
+.ngo-submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #111827;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.ngo-submit-btn:hover {
+  background-color: #1f2937;
+}
+
+.ngo-submit-btn:active {
+  transform: scale(0.99);
+}

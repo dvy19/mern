@@ -24,7 +24,7 @@ export default function Register() {
         })
 
         console.log(data)
-        navigate('/home')
+        navigate('/ngo-details')
 
     }
     catch(err){
@@ -34,7 +34,7 @@ export default function Register() {
 
   return (
     <div className="register-container">
-      <h2>Register</h2>
+      <h2>Register as NGO</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>
@@ -78,11 +78,6 @@ export default function Register() {
       <div className="login-section">
         <p>Already have an account?</p>
         <button type="button" className="login-btn">To Login</button>
-      </div>
-
-      <div className="login-section">
-        <p>Register as an NGO</p>
-        <button type="button" className="login-btn" onClick={()=>{navigate('./ngo-register')}}>To Login</button>
       </div>
     </div>
   );

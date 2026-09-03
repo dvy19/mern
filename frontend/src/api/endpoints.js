@@ -6,6 +6,7 @@ const endpoints={
     REGISTER:"auth/register",
 
     GET_ALL_NGO:"ngo/getAllNgo",
+    CREATE_NGO:"ngo/create-ngo",
 
     SINGLE_NGO :(id)=>`ngo/${id}`,
 

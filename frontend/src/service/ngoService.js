@@ -10,6 +10,13 @@ export const ngoService={
         return data.data
     },
 
+    createNgo:async(req,res)=>{
+
+        const data=await api.post(endpoints.CREATE_NGO,req)
+        return data.data
+
+    },
+
     getSingleNgo:async(id)=>{
 
         const data=await api.get(`${endpoints.SINGLE_NGO(id)}`)

@@ -14,6 +14,11 @@ import NgoDetailCard from './components/NgoDetailsCard'
 import CampaignDetailsCard from './pages/CampaignDetails'
 import Join from './pages/join/Join'
 import TestSocket from '../src/components/Testcomponent'
+import NgoDashboard from './pages/ngo/ngoDash/NgoDashboard'
+
+import NgoRegister from '../src/pages/NgoRegister'
+import NgoProfile from './pages/ngo/profile/NgoProfile'
+import NgoDetails from './pages/ngo/details/NgoDetails'
 
 function App() {
   
@@ -39,6 +44,15 @@ function App() {
         <Route path='/join/:id' element={<Join/>}/>
 
         <Route path='/test-socket' element={<TestSocket/>}/>
+
+        <Route path='/ngo-dash/:id' element={<NgoDashboard/>}/>
+
+        <Route path='register/ngo-register' element={<NgoRegister/>}/>
+
+        <Route path='/ngo-profile/:id' element={<NgoProfile/>}/>
+
+        <Route path='/ngo-details' element={<NgoDetails/>}/>
+
 
 
 

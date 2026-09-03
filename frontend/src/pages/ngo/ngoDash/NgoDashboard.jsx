@@ -1,20 +1,48 @@
 import { useEffect, useState } from "react";
-import socket from "../../service/Socket";
+import socket from "../../../service/Socket";
 
+import NgoNavbar from '../NgoNavbar'
+import { useParams } from "react-router-dom";
+import {ngoService} from '../../../service/ngoService'
 export default function NgoDashboard() {
 
     const [notifications, setNotifications] = useState([]);
 
     // Temporary: replace this with your actual NGO ID
-    const ngoId = "YOUR_NGO_ID";
+    const {id}=useParams()
+
+    const[ngo,setNgo]=useState({});
+    
+    
+    const getNgo=async()=>{
+    
+            try{
+                const res=await ngoService.getSingleNgo(id)
+    
+                setNgo(res)
+    
+                console.log(res)
+            }
+            catch(err){
+                console.log(`${err}`)
+            }
+        }
+    
+        useEffect(()=>{
+            getNgo()
+        },[id])
+    
+      /*
+      {"_id":"6a94e0b30c4d27b21c54f941","name":"revamp","title":"revamp india foundation","category":"plant","bio":"kanput ngo","logo":null,"established":2021,"user":"6a94dc746fd4d050181bcfcd","__v":0}
+      */
 
 
     useEffect(() => {
 
         // Join NGO's private room
-        socket.emit("joinNgoRoom", ngoId);
+        socket.emit("joinNgoRoom", id);
 
-        console.log("Joining NGO room:", ngoId);
+        console.log("Joining NGO room:", id);
 
 
         // Listen for new join requests
@@ -37,13 +65,13 @@ export default function NgoDashboard() {
 
         };
 
-    }, [ngoId]);
+    }, [id]);
 
 
     return (
         <div>
 
-            <h1>NGO Dashboard</h1>
+            <NgoNavbar ngo={ngo} ></NgoNavbar>
 
 
             <h2>
