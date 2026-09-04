@@ -16,6 +16,7 @@ const bcrypt = require("bcryptjs");
 
 // importing User model => a mongoose model with which built-in functions like findOne and create can work
 const {User} = require("../models/User");
+const NGO=require('../models/Ngo')
 
 const jwt = require("jsonwebtoken");
 
@@ -60,6 +61,8 @@ const register = async (req, res) => {
             email,
             password: hashedPassword
         });
+
+        console.log(user)
 
         const accessToken = jwt.sign(
             { userId: user._id },
@@ -109,7 +112,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         console.log("Email received:", email);
-console.log("User found:", !!user);
+        console.log("User found:", !!user);
 
         if (!user) {
             return res.status(401).json({
@@ -123,13 +126,16 @@ console.log("User found:", !!user);
             user.password
         );
 
-console.log("Password correct:", isPasswordCorrect);
+        console.log("Password correct:", isPasswordCorrect);
 
         if (!isPasswordCorrect) {
             return res.status(401).json({
                 message: "Invalid email or password"
             });
         }
+
+        const ngo = await NGO.findOne({ user: user._id });
+        console.log(ngo)
 
         const accessToken = jwt.sign(
             { userId: user._id },
@@ -151,7 +157,8 @@ console.log("Password correct:", isPasswordCorrect);
             user: {
                 id: user._id,
                 role: user.role,
-                email: user.email
+                email: user.email,
+                ngoId: ngo?._id || null
             },
 
         });

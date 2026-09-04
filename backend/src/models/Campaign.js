@@ -36,13 +36,18 @@ const joinRequest=new mong.Schema({
     }
 },
     {
-        timestamp:true
+        timestamps:true
     }
 
 )
 
+
+
 const Campaign=mong.model("campaigns" , createCampaign)
 
-const JoinRequest=mong.model('joinReq',joinRequest)
+const JoinRequest = mong.model("JoinRequest", joinRequest);
 
-module.exports={Campaign , JoinRequest}
+module.exports = {
+    Campaign,
+    JoinRequest
+};

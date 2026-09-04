@@ -6,6 +6,7 @@ import {  useNavigate, useParams } from "react-router-dom";
 import {ngoService} from '../../../service/ngoService'
 
 import './NgoDashboard.css'
+import axios from "axios";
 
 import  CampaignCard from '../../../components/CampaignCard'
 import Card from '../../../components/Card'
@@ -76,35 +77,60 @@ export default function NgoDashboard() {
       */
 
 
-    useEffect(() => {
+   useEffect(() => {
 
-        // Join NGO's private room
-        socket.emit("joinNgoRoom", id);
+    if (!id) {
+        console.log("❌ NGO ID missing");
+        return;
+    }
 
-        console.log("Joining NGO room:", id);
+    console.log("🔌 Socket ID:", socket.id);
+    console.log("🏢 NGO ID:", id);
 
+    // Listen FIRST
+    const handleNewRequest = (data) => {
 
-        // Listen for new join requests
-        socket.on("newJoinRequest", (data) => {
+        console.log("🔔 RECEIVED NEW JOIN REQUEST:", data);
 
-            console.log("🔔 NEW JOIN REQUEST:", data);
+        setNotifications((prev) => [
+            data,
+            ...prev
+        ]);
+    };
 
-            setNotifications((prev) => [
-                data,
-                ...prev
-            ]);
+    socket.on("newJoinRequest", handleNewRequest);
 
-        });
+    // Then join room
+    socket.emit("joinNgoRoom", id);
 
+    console.log("📤 Joined NGO room:", id);
 
-        // Cleanup
-        return () => {
+    return () => {
+        console.log("🧹 Removing newJoinRequest listener");
+        socket.off("newJoinRequest", handleNewRequest);
+    };
 
-            socket.off("newJoinRequest");
+}, [id]);
 
-        };
+useEffect(() => {
+    if (!id) return;
 
-    }, [id]);
+    const fetchJoinRequests = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5000/api/ngo/ngo-join/${id}`
+            );
+
+            console.log("📥 Existing requests:", response.data);
+
+            setNotifications(response.data);
+        } catch (error) {
+            console.log("❌ Error fetching requests:", error);
+        }
+    };
+
+    fetchJoinRequests();
+}, [id]);
 
 
     return (

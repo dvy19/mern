@@ -156,6 +156,11 @@ const createJointRequest = async (req, res) => {
         // Socket.IO
         const io = getIO();
 
+        console.log(
+    "📤 Sending notification to NGO:",
+    existingCampaign.ngo.toString()
+);
+
         io.to(existingCampaign.ngo.toString()).emit(
             "newJoinRequest",
             {
@@ -165,6 +170,8 @@ const createJointRequest = async (req, res) => {
                 userId: user
             }
         );
+
+        console.log("✅ Notification emitted");
 
 
         return res.status(201).json({
@@ -183,4 +190,55 @@ const createJointRequest = async (req, res) => {
     }
 };
 
-module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign }
+const getNgoJoinRequests = async (req, res) => {
+    try {
+        const { ngoId } = req.params;
+
+        console.log("🏢 NGO ID:", ngoId);
+
+        const campaigns = await Campaign.find({
+            ngo: ngoId
+        }).select("_id");
+
+        console.log("📋 NGO campaigns:", campaigns);
+
+        const campaignIds = campaigns.map(campaign => campaign._id);
+
+        console.log("🆔 Campaign IDs:", campaignIds);
+
+        const requests = await JoinRequest.find({
+            campaign: { $in: campaignIds },
+            status: "pending"
+        });
+
+        console.log("📥 EXISTING REQUESTS:", requests);
+        console.log("📊 COUNT:", requests.length);
+
+        const allRequests = await JoinRequest.find({
+    status: "pending"
+}).select("_id campaign user status");
+
+console.log("🔎 ALL PENDING REQUESTS:", allRequests);
+
+        
+const formattedRequests = requests.map((request) => ({
+    message: "New join request received",
+    requestId: request._id,
+    campaignId: request.campaign?._id,
+    campaignTitle: request.campaign?.title,
+    userId: request.user?._id,
+    userName: request.user?.name,
+    userEmail: request.user?.email,
+    status: request.status
+}));
+
+res.status(200).json(formattedRequests);
+    } catch (error) {
+        console.log("❌ ERROR:", error);
+        res.status(500).json({
+            message: "Failed to fetch join requests"
+        });
+    }
+};
+
+module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign , getNgoJoinRequests}

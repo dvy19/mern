@@ -26,7 +26,7 @@ export default function Login() {
           navigate('/home')
         }
         else if(data.user.role==='ngo'){
-          navigate('/ngo-details')
+          navigate(`/ngo-dash/${data.user.ngoId}`)
         }
 
     }

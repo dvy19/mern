@@ -10,7 +10,7 @@ const {
     
 }=require("../controllers/ngoControllers")
 
-const {createCampaign , getAllCampaign , 
+const {createCampaign , getAllCampaign , getNgoJoinRequests,
     getSingleCampaign}=require("../controllers/campaignController")
 
 const {createJointRequest}=require("../controllers/campaignController")
@@ -32,6 +32,7 @@ router.get('/getSingleCampaign/:id' , getSingleCampaign)
 
 router.post('/create-join/:campaignId',authMiddleware,createJointRequest)
 
+router.get("/ngo-join/:ngoId", getNgoJoinRequests);
 router.get("/:id",getNgoById)
 
 /*
