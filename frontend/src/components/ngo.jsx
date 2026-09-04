@@ -7,7 +7,7 @@ export default function NgoCard({ name, logo , id }) {
   const navigate=useNavigate()
 
   const toNgo=()=>{
-    navigate(`/NgoDetailsCard/${id}`)
+    navigate(`/ngo-profile/${id}`)
 
   }
   return (

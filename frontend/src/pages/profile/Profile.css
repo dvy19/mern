@@ -133,3 +133,17 @@
   background-color: #fee2e2;
   color: #b91c1c;
 }
+
+.back{
+
+  margin: 24px;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.image-preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}

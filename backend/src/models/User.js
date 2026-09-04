@@ -59,6 +59,10 @@ const userDetail= new mongoose.Schema(
             },
         age:Number,
         qualification:String,
+        profile: {
+            type: String,
+            default: null
+        },
 
         user: {
                 type: mongoose.Schema.Types.ObjectId,

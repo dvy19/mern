@@ -7,6 +7,33 @@
   border-radius: 8px;
   font-family: sans-serif;
 }
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 2.5rem; /* Prevents text from hiding behind the icon */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.toggle-password-btn:hover {
+  color: #111827;
+}
 
 /* Form layout */
 .form-group {

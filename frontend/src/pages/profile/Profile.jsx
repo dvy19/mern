@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react'
 import authService from '../../service/authService'
 import ProfileForm from '../../components/profile/ProfileForm'
 import './Profile.css'
+import Navbar from '../../components/navbar/Navbar'
+import { useNavigate } from 'react-router-dom'
 const Profile = () => {
 
     const[user,setUser]=useState({})
     const[hasProfile,setHasProfile]=useState(false)
+
+    const navigate=useNavigate()
 
     const getProfile=async()=>{
 
@@ -33,6 +37,9 @@ const Profile = () => {
 
   return (
     <div>
+      <Navbar></Navbar>
+
+      <button className="back" onClick={()=>navigate(-1)}>Back</button>
 
         {!hasProfile && (
             
@@ -45,6 +52,15 @@ const Profile = () => {
       {/* Header / Avatar */}
       <div className="card-header">
         <div className="avatar-container">
+
+          
+                <div className="image-preview">
+                  <img
+                    src={user.profile}
+                    alt="Profile Preview"
+                  />
+                </div>
+
            
         </div>
         <h3 className="user-name">{user.name || 'Anonymous User'}</h3>

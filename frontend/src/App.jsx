@@ -16,7 +16,6 @@ import Join from './pages/join/Join'
 import TestSocket from '../src/components/Testcomponent'
 import NgoDashboard from './pages/ngo/ngoDash/NgoDashboard'
 
-import NgoRegister from '../src/pages/NgoRegister'
 import NgoProfile from './pages/ngo/profile/NgoProfile'
 import NgoDetails from './pages/ngo/details/NgoDetails'
 import CreateCampaign from './pages/ngo/CreateCampaigns'
@@ -48,7 +47,6 @@ function App() {
 
         <Route path='/ngo-dash/:id' element={<NgoDashboard/>}/>
 
-        <Route path='register/ngo-register' element={<NgoRegister/>}/>
 
         <Route path='/ngo-profile/:id' element={<NgoProfile/>}/>
 

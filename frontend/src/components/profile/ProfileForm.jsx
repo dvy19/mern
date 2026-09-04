@@ -12,6 +12,9 @@ const ProfileForm = () => {
     qualification: '',
   });
 
+  const [profileImage, setProfileImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -20,13 +23,44 @@ const ProfileForm = () => {
     }));
   };
 
+  const handleImageChange = (e) => {
+      const file = e.target.files[0];
+
+      console.log(file)
+
+      if (!file) return;
+
+      setProfileImage(file);
+
+      // create preview
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+};
+
   const handleSubmit = async(e) => {
     e.preventDefault();
 
     try{
-        const data=await authService.createUser(formData)
 
-        console.log(`${data.message}`)
+         const data = new FormData();
+
+          data.append("name", formData.name);
+          data.append("city", formData.city);
+          data.append("gender", formData.gender);
+          data.append("age", formData.age);
+          data.append("qualification", formData.qualification);
+
+          if (profileImage) {
+            data.append("profile", profileImage);
+          }
+
+          for (const [key, value] of data.entries()) {
+            console.log(key, value);
+          }
+
+        const res=await authService.createUser(data)
+
+        console.log(`${res.message}`)
     }
     
         catch(err){
@@ -39,6 +73,27 @@ const ProfileForm = () => {
     <div className="form-wrapper">
       <form className="profile-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Profile Details</h2>
+
+        <div className="form-group">
+            <label htmlFor="profile">Profile Picture</label>
+
+            <input
+              type="file"
+              id="profile"
+              name="profile"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+        </div>
+
+        {preview && (
+                <div className="image-preview">
+                  <img
+                    src={preview}
+                    alt="Profile Preview"
+                  />
+                </div>
+        )}
 
         {/* Name Input */}
         <div className="form-group">

@@ -17,10 +17,12 @@ const authMiddleware=require("../middleware/authMiddleware")
 
 const router = express.Router();
 
+const upload=require('../middleware/upload')
+
 router.post("/register", register);
 router.post("/login", login);
 
-router.post("/create-user" , authMiddleware,createUserProfile )
+router.post("/create-user" ,  upload.single("profile"),authMiddleware,createUserProfile )
 router.get("/get-user" , authMiddleware,getUserProfile )
 
 

@@ -1,6 +1,8 @@
 
 const {User , UserProfile}=require("../models/User")
 
+const cloudinary = require('../config/cloudinary')
+
 const createUserProfile=async(req,res)=>{
 
     
@@ -12,6 +14,32 @@ const createUserProfile=async(req,res)=>{
         const user=req.user.userId;
 
         console.log(user)
+
+        let profileImage = null;
+
+        if (req.file) {
+
+            profileImage = await new Promise((resolve, reject) => {
+
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "ngo-app/user-profiles",
+                        resource_type: "image"
+                    },
+                    (error, result) => {
+
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result.secure_url);
+                        }
+
+                    }
+                );
+
+                stream.end(req.file.buffer);
+            });
+        }
 
         const exist=await UserProfile.findOne({user})
 
@@ -26,6 +54,7 @@ const createUserProfile=async(req,res)=>{
             city,
             gender,
             qualification,
+            profile:profileImage,
             user
         })
 

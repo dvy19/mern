@@ -92,7 +92,7 @@ const CreateCampaign = () => {
               onChange={handleChange}
               required
             >
-              <option value="" disabled>Select Category</option>
+              <option value="" disabled>Select Role</option>
               <option value="education">Education</option>
               <option value="healthcare">Healthcare</option>
               <option value="environment">Environment</option>

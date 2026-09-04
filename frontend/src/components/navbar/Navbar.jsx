@@ -6,23 +6,20 @@ import {Link} from 'react-router-dom'
 const Navbar = () => {
   return (
     <nav className="navbar">
-      {/* Left: Logo */}
       <div className="navbar-logo">
         <a href="/">
           
-          <span className="logo-text">HopeFoundation</span>
+          <span className="logo-text">CommmunityBridge</span>
         </a>
       </div>
 
-      {/* Center: Navigation Links */}
       <ul className="navbar-menu">
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">Home</a></li>
+        <li><a href="#projects">Blogs</a></li>
         <li><a href="#donate">Donate</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">About Us</a></li>
       </ul>
 
-      {/* Right: Profile Button */}
       <div className="navbar-profile">
         <button className="profile-btn" aria-label="User Profile">
           <svg 
