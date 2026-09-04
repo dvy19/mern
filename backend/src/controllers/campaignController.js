@@ -53,7 +53,7 @@ const getAllCampaign=async(req,res)=>{
     try{
 
 
-        const {active}=req.query;
+        const {active , ngoId}=req.query;
 
         let filter={};
 
@@ -61,6 +61,10 @@ const getAllCampaign=async(req,res)=>{
         // converts string "true" to boolean true
         if (active !== undefined) {
             filter.active = active === "true";
+        }
+
+         if (ngoId !== undefined) {
+            filter.ngo = ngoId;
         }
 
 
@@ -99,6 +103,10 @@ const getSingleCampaign=async(req,res)=>{
         });
     }
 }
+
+
+
+
 const createJointRequest = async (req, res) => {
 
     try {
@@ -171,4 +179,4 @@ const createJointRequest = async (req, res) => {
     }
 };
 
-module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign}
+module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign }

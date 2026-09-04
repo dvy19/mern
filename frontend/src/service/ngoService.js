@@ -17,6 +17,12 @@ export const ngoService={
 
     },
 
+    createCampaign:async(req,res)=>{
+
+        const data=await api.post(endpoints.CREATE_CAMPAIGN,req)
+        return data.data
+
+    },
     getSingleNgo:async(id)=>{
 
         const data=await api.get(`${endpoints.SINGLE_NGO(id)}`)
@@ -24,11 +30,11 @@ export const ngoService={
 
     },
 
-    getAllCampaigns:async(active)=>{
+    getAllCampaigns:async(active , id)=>{
 
-        const res=await api.get(endpoints.GET_ALL_CAMPAIGNS,{
+        const res=await api.get(`${endpoints.GET_ALL_CAMPAIGNS(id)}`,{
             params: {
-                active: active
+                active: active, 
             }
         })
 

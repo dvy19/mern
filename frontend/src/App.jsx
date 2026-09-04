@@ -19,6 +19,7 @@ import NgoDashboard from './pages/ngo/ngoDash/NgoDashboard'
 import NgoRegister from '../src/pages/NgoRegister'
 import NgoProfile from './pages/ngo/profile/NgoProfile'
 import NgoDetails from './pages/ngo/details/NgoDetails'
+import CreateCampaign from './pages/ngo/CreateCampaigns'
 
 function App() {
   
@@ -52,6 +53,8 @@ function App() {
         <Route path='/ngo-profile/:id' element={<NgoProfile/>}/>
 
         <Route path='/ngo-details' element={<NgoDetails/>}/>
+
+        <Route path='/create-camp' element={<CreateCampaign/>}/>
 
 
 
