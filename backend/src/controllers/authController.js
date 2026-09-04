@@ -23,7 +23,7 @@ const register = async (req, res) => {
     try {
 
         // object destructing => extracting keys of a variable into variables
-        const { name, email, password } = req.body;
+        const { role, email, password } = req.body;
 
         /*
         const name = req.body.name;
@@ -32,7 +32,7 @@ const register = async (req, res) => {
         */
 
         // res is a Response object from Express, sends the response in JSON format. Also sets the status code
-        if (!name || !email || !password) {
+        if (!role || !email || !password) {
             return res.status(400).json({
                 message: "Name, email and password are required"
             });
@@ -56,7 +56,7 @@ const register = async (req, res) => {
 
         // creating a user document and save
         const user = await User.create({
-            name,
+            role,
             email,
             password: hashedPassword
         });
@@ -80,7 +80,7 @@ const register = async (req, res) => {
             message: "User registered successfully",
             user: {
                 id: user._id,
-                name: user.name,
+                role: user.role,
                 email: user.email
             },
         });
@@ -95,6 +95,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+
     try {
         const { email, password } = req.body || {};
 
@@ -107,6 +108,9 @@ const login = async (req, res) => {
         // Find user
         const user = await User.findOne({ email });
 
+        console.log("Email received:", email);
+console.log("User found:", !!user);
+
         if (!user) {
             return res.status(401).json({
                 message: "Invalid email or password"
@@ -118,6 +122,8 @@ const login = async (req, res) => {
             password,
             user.password
         );
+
+console.log("Password correct:", isPasswordCorrect);
 
         if (!isPasswordCorrect) {
             return res.status(401).json({
@@ -144,7 +150,7 @@ const login = async (req, res) => {
             message: "Login successful",
             user: {
                 id: user._id,
-                name: user.name,
+                role: user.role,
                 email: user.email
             },
 

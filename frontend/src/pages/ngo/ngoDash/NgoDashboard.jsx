@@ -7,6 +7,7 @@ import {ngoService} from '../../../service/ngoService'
 
 import './NgoDashboard.css'
 
+import  CampaignCard from '../../../components/CampaignCard'
 import Card from '../../../components/Card'
 
 export default function NgoDashboard() {
@@ -19,6 +20,8 @@ export default function NgoDashboard() {
     const {id}=useParams()
 
     const[ngo,setNgo]=useState({});
+
+    const[camp,setCamp]=useState([])
 
     
     
@@ -42,10 +45,15 @@ export default function NgoDashboard() {
             getNgo()
         },[id])
 
-        const getCampaigns=async(active)=>{
+        const getCampaigns=async(active , id)=>{
+            console.log(id)
 
             try{
-                const camp=await ngoService.getAllCampaigns(active)
+                const camp=await ngoService.getAllCampaigns(active , id)
+
+                console.log("id send",id)
+
+                setCamp(camp.campaign)
 
                 console.log(camp)
 
@@ -56,9 +64,11 @@ export default function NgoDashboard() {
             }
         }
 
-        useEffect((active)=>{
-            getCampaigns(true)
-        } , [id])
+        useEffect(() => {
+                if (id) {
+                    getCampaigns(true, id);
+                }
+        }, [id]);
 
     
       /*
@@ -114,6 +124,15 @@ export default function NgoDashboard() {
 
             <button onClick={()=>navigate('/create-camp')}>Create Campaign</button>
 
+
+                  <div className="ngo-list-horizontal">
+                          {camp.map((item) => (
+                              <CampaignCard
+                                key={item._id}
+                                camp={item}
+                              />
+                          ))}
+                        </div>
 
             <h2>
                 Notifications 🔔

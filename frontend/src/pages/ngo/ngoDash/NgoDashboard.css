@@ -7,6 +7,17 @@
   padding: 1rem;
 }
 
+
+.ngo-list-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 4px 16px 4px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; 
+}
+
 /* Responsive adjustment for mobile screens */
 @media (max-width: 640px) {
   .dashboard-grid {

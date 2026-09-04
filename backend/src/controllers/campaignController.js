@@ -53,7 +53,9 @@ const getAllCampaign=async(req,res)=>{
     try{
 
 
-        const {active , ngoId}=req.query;
+        const {active , ngoId }=req.query;
+
+        console.log(ngoId)
 
         let filter={};
 
@@ -67,10 +69,12 @@ const getAllCampaign=async(req,res)=>{
             filter.ngo = ngoId;
         }
 
+         console.log("NGO ID:", ngoId);
+        console.log("Filter:", filter);
+
 
         const campaign=await Campaign.find(filter).populate("ngo");
 
-        console.log("Campaign:", campaign);
 
 
         res.status(200).json({

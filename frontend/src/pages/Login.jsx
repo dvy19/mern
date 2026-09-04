@@ -3,7 +3,7 @@ import './login.css';
 import authService from '../service/authService';
 import {useNavigate} from 'react-router-dom'
 export default function Login() {
-  const[name,setName]=useState('');
+  const[role,setRole]=useState('');
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('')
 
@@ -17,11 +17,17 @@ export default function Login() {
 
     try{
         const data=await authService.login({
-            name, email, password
+           email, password
         })
 
         console.log(data)
-        navigate('/home')
+        
+        if(data.user.role==='user'){
+          navigate('/home')
+        }
+        else if(data.user.role==='ngo'){
+          navigate('/ngo-details')
+        }
 
     }
     catch(err){
@@ -34,15 +40,7 @@ export default function Login() {
       <h2>Login Here</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+          
         </div>
 
         <div className="form-group">

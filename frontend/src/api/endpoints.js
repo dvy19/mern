@@ -11,7 +11,7 @@ const endpoints={
     SINGLE_NGO :(id)=>`ngo/${id}`,
     CREATE_CAMPAIGN:'ngo/create-campaign',
 
-    GET_ALL_CAMPAIGNS:(id)=>`ngo/getAllCampaigns/${id}`,
+    GET_ALL_CAMPAIGNS:"ngo/getAllCampaigns",
     
     GET_SINGLE_CAMP:(id)=>`ngo/getSingleCampaign/${id}`,
 

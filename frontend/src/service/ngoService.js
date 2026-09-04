@@ -30,11 +30,12 @@ export const ngoService={
 
     },
 
-    getAllCampaigns:async(active , id)=>{
+    getAllCampaigns:async(active , ngoId)=>{
 
-        const res=await api.get(`${endpoints.GET_ALL_CAMPAIGNS(id)}`,{
+        const res=await api.get(endpoints.GET_ALL_CAMPAIGNS,{
             params: {
-                active: active, 
+                active: active,
+                ngoId 
             }
         })
 

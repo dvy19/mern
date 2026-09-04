@@ -23,10 +23,11 @@ using timestamps,
 // here we only define the rules, constraints and types
 const userSchema = new mongoose.Schema(
     {
-        name: {
+        role: {
             type: String,
             required: true,
-            trim: true
+            trim: true,
+            enum: ["user" , "ngo"]
         },
 
         email: {

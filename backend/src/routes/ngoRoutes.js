@@ -26,7 +26,7 @@ router.get("/getAllNgo",getAllNgos)
 
 router.post("/create-campaign",authMiddleware,createCampaign)
 
-router.get('/getAllCampaigns/:id' ,  getAllCampaign)
+router.get('/getAllCampaigns' ,  getAllCampaign)
 router.get('/getSingleCampaign/:id' , getSingleCampaign)
 
 

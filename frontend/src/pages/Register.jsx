@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   
-    const[name,setName]=useState('');
+    const[role,setRole]=useState('');
     const[email,setEmail]=useState('');
     const[password,setPassword]=useState('')
 
@@ -20,11 +20,20 @@ export default function Register() {
 
     try{
         const data=await authService.register({
-            name, email, password
+            role, email, password
         })
 
         console.log(data)
-        navigate('/home')
+
+        if(role==='user'){
+          navigate('/home')
+        }
+        else if(role==='ngo'){
+          navigate('/ngo-details')
+        }
+        else{
+          windows.alert("choose role = user or ngo")
+        }
 
     }
     catch(err){
@@ -37,13 +46,13 @@ export default function Register() {
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="role">Name:</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             required
           />
         </div>

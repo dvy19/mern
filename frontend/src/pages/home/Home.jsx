@@ -43,7 +43,7 @@ const Home = () => {
 
   const[camp,setCamp]=useState([]);
   
-  const getCamp=async(active)=>{
+  const getCamp=async(active )=>{
   
           try{
   
