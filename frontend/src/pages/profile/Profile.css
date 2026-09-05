@@ -16,13 +16,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-bottom: 1.5rem;
 }
 
 .avatar-container {
   width: 80px;
   height: 80px;
-  margin-bottom: 0.75rem;
+ 
+  margin-bottom: 2.5rem;
 }
 
 .avatar-img {
@@ -145,5 +147,6 @@
   width: 120px;
   height: 120px;
   object-fit: cover;
+  margin-left: -20px;
   border-radius: 50%;
 }

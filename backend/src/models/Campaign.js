@@ -30,6 +30,33 @@ const joinRequest=new mong.Schema({
 
     },
 
+    question: {
+        type: String,
+        required: true
+    },
+
+    answer: {
+        type: String,
+        required: true
+    },
+
+    aiRating: {
+        type: Number
+    },
+
+    aiFeedback: {
+        type: String
+    },
+
+    aiStrengths: [{
+        type: String
+    }],
+
+    aiImprovements: [{
+        type: String
+    }],
+
+
     campaign: {
         type: mong.Schema.Types.ObjectId,
         ref: "campaigns",

@@ -57,7 +57,7 @@ const userDetail= new mongoose.Schema(
             type: String,
             enum: ["male", "female", "other"]
             },
-        age:Number,
+        age:String,
         qualification:String,
         profile: {
             type: String,

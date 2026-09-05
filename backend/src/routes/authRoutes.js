@@ -9,7 +9,7 @@ const {
     login
 } = require("../controllers/authController");
 
-const {createUserProfile , getUserProfile}=require("../controllers/userController")
+const {createUserProfile , getUserProfile , editUserProfile , deleteUserProfile}=require("../controllers/userController")
 
 const authMiddleware=require("../middleware/authMiddleware")
 
@@ -25,5 +25,18 @@ router.post("/login", login);
 router.post("/create-user" ,  upload.single("profile"),authMiddleware,createUserProfile )
 router.get("/get-user" , authMiddleware,getUserProfile )
 
+
+router.put(
+    "/edit-profile",
+    authMiddleware,
+    upload.single("profile"),
+    editUserProfile
+);
+
+router.delete(
+    "/delete-profile",
+    authMiddleware,
+    deleteUserProfile
+);
 
 module.exports = router;

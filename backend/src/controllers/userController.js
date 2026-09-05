@@ -53,6 +53,7 @@ const createUserProfile=async(req,res)=>{
             name,
             city,
             gender,
+            age,
             qualification,
             profile:profileImage,
             user
@@ -117,4 +118,97 @@ const getUserProfile=async(req,res)=>{
 }
 
 
-module.exports={createUserProfile , getUserProfile}
+const editUserProfile = async (req, res) => {
+    try {
+        const { name, age, gender, qualification, city } = req.body;
+
+        const user = req.user.userId;
+
+        const userProfile = await UserProfile.findOne({ user });
+
+        if (!userProfile) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        // Update only fields that were provided
+        if (name !== undefined) userProfile.name = name;
+        if (age !== undefined) userProfile.age = age;
+        if (gender !== undefined) userProfile.gender = gender;
+        if (qualification !== undefined) {
+            userProfile.qualification = qualification;
+        }
+        if (city !== undefined) userProfile.city = city;
+
+        // If new image is uploaded
+        if (req.file) {
+
+            const profileImage = await new Promise((resolve, reject) => {
+
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "ngo-app/user-profiles",
+                        resource_type: "image"
+                    },
+                    (error, result) => {
+
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(result.secure_url);
+                        }
+
+                    }
+                );
+
+                stream.end(req.file.buffer);
+            });
+
+            userProfile.profile = profileImage;
+        }
+
+        await userProfile.save();
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            data: userProfile
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Failed to update profile"
+        });
+    }
+};
+
+const deleteUserProfile = async (req, res) => {
+    try {
+
+        const user = req.user.userId;
+
+        const profile = await UserProfile.findOneAndDelete({ user });
+
+        if (!profile) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Profile deleted successfully"
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Failed to delete profile"
+        });
+    }
+};
+
+
+module.exports={createUserProfile , getUserProfile , editUserProfile , deleteUserProfile}

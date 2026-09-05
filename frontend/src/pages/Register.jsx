@@ -4,6 +4,16 @@ import './register.css';
 import authService from '../service/authService'
 import { useNavigate } from 'react-router-dom';
 
+import { 
+  FiMail, 
+  FiLock, 
+  FiEye, 
+  FiEyeOff, 
+  FiUser, 
+  FiHeart, 
+  FiArrowRight 
+} from 'react-icons/fi';
+
 export default function Register() {
   
     const[role,setRole]=useState('');

@@ -16,6 +16,12 @@ const endpoints={
     GET_SINGLE_CAMP:(id)=>`ngo/getSingleCampaign/${id}`,
 
     CREATE_USER_PROFILE:"auth/create-user",
+    
+    EDIT_USER_PROFILE:"auth/edit-profile",
+
+    DELETE_USER_PROFILE:"auth/delete-profile",
+
+
    GET_USER_PROFILE:"auth/get-user",
 
    CREATE_JOIN:(id)=>`ngo/create-join/${id}`,

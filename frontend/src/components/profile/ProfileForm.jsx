@@ -60,6 +60,8 @@ const ProfileForm = () => {
 
         const res=await authService.createUser(data)
 
+        alert("Profile created, Please Refresh")
+
         console.log(`${res.message}`)
     }
     

@@ -20,6 +20,7 @@ const connectDB = require("./config/db");
 // getting auth routes
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
+const ai=require('./routes/aiRoutes')
 
 
 // creates the express application
@@ -45,6 +46,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/ai", ai);
 
 
 const ngoRoutes = require("./routes/ngoRoutes");
