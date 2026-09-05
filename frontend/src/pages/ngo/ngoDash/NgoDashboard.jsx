@@ -8,6 +8,8 @@ import {ngoService} from '../../../service/ngoService'
 import './NgoDashboard.css'
 import axios from "axios";
 
+import JoinRequestCard from './JoinCard'
+
 import  CampaignCard from '../../../components/CampaignCard'
 import Card from '../../../components/Card'
 
@@ -79,38 +81,38 @@ export default function NgoDashboard() {
 
    useEffect(() => {
 
-    if (!id) {
-        console.log("❌ NGO ID missing");
-        return;
-    }
+        if (!id) {
+            console.log("❌ NGO ID missing");
+            return;
+        }
 
-    console.log("🔌 Socket ID:", socket.id);
-    console.log("🏢 NGO ID:", id);
+        console.log("🔌 Socket ID:", socket.id);
+        console.log("🏢 NGO ID:", id);
 
-    // Listen FIRST
-    const handleNewRequest = (data) => {
+        // Listen FIRST
+        const handleNewRequest = (data) => {
 
-        console.log("🔔 RECEIVED NEW JOIN REQUEST:", data);
+            console.log("🔔 RECEIVED NEW JOIN REQUEST:", data);
 
-        setNotifications((prev) => [
-            data,
-            ...prev
-        ]);
-    };
+            setNotifications((prev) => [
+                data,
+                ...prev
+            ]);
+        };
 
-    socket.on("newJoinRequest", handleNewRequest);
+        socket.on("newJoinRequest", handleNewRequest);
 
-    // Then join room
-    socket.emit("joinNgoRoom", id);
+        // Then join room
+        socket.emit("joinNgoRoom", id);
 
-    console.log("📤 Joined NGO room:", id);
+        console.log("📤 Joined NGO room:", id);
 
-    return () => {
-        console.log("🧹 Removing newJoinRequest listener");
-        socket.off("newJoinRequest", handleNewRequest);
-    };
+        return () => {
+            console.log("🧹 Removing newJoinRequest listener");
+            socket.off("newJoinRequest", handleNewRequest);
+        };
 
-}, [id]);
+    }, [id]);
 
 useEffect(() => {
     if (!id) return;
@@ -120,6 +122,13 @@ useEffect(() => {
             const response = await axios.get(
                 `http://localhost:5000/api/ngo/ngo-join/${id}`
             );
+
+
+            console.log("📥 RESPONSE DATA:", response.data);
+console.log("👤 NAME:", response.data[3]?.userName);
+console.log("⚧ GENDER:", response.data[3]?.userGender);
+console.log("📧 EMAIL:", response.data[3]?.userEmail);
+console.log("📢 CAMPAIGN:", response.data[3]?.campaignTitle);
 
             console.log("📥 Existing requests:", response.data);
 
@@ -166,40 +175,23 @@ useEffect(() => {
 
 
             {notifications.length === 0 ? (
-
-                <p>No new notifications</p>
-
-            ) : (
-
-                notifications.map((notification) => (
-
-                    <div
-                        key={notification.requestId}
-                        style={{
-                            border: "1px solid #ddd",
-                            padding: "12px",
-                            marginBottom: "10px",
-                            borderRadius: "8px"
-                        }}
-                    >
-
-                        <strong>
-                            🔔 {notification.message}
-                        </strong>
-
-                        <p>
-                            Campaign ID: {notification.campaignId}
-                        </p>
-
-                        <p>
-                            User ID: {notification.userId}
-                        </p>
-
-                    </div>
-
-                ))
-
-            )}
+    <p>No new notifications</p>
+) : (
+    notifications.map((notification) => (
+        <div
+            className="ngo-list-horizontal"
+            key={notification.requestId}
+        >
+            <JoinRequestCard
+                title={notification.campaignTitle}
+                userName={notification.userName}
+                userEmail={notification.userEmail}
+                userGender={notification.userGender}
+                status={notification.status}
+            />
+        </div>
+    ))
+)}
 
         </div>
     );

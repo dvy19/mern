@@ -23,9 +23,16 @@ const joinRequest=new mong.Schema({
         required: true
     },
 
+    userProfile:{
+        type:mong.Schema.Types.ObjectId,
+        ref:"UserProfile",
+        required:true
+
+    },
+
     campaign: {
         type: mong.Schema.Types.ObjectId,
-        ref: "Campaign",
+        ref: "campaigns",
         required: true
     },
 

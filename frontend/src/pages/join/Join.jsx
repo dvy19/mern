@@ -8,6 +8,7 @@ import '../profile/Profile.css'
 import './Join.css'
 import { ngoService } from '../../service/ngoService'
 import { useNavigate, useParams } from 'react-router-dom'
+
 const Join = () => {
 
     const {id}=useParams()

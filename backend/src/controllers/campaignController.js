@@ -2,6 +2,8 @@ const {Campaign}=require("../models/Campaign")
 
 const Ngo=require("../models/Ngo")
 
+const {UserProfile}=require('../models/User')
+
 const {getIO }=require("../socket")
 
 const {JoinRequest}=require("../models/Campaign")
@@ -108,21 +110,23 @@ const getSingleCampaign=async(req,res)=>{
     }
 }
 
-
-
-
 const createJointRequest = async (req, res) => {
-
     try {
-
-        console.log("REQ.USER:", req.user);
-
         const user = req.user.userId;
-
-        console.log("USER:", user);
-
         const campaign = req.params.campaignId;
 
+        // Find user's profile
+        const userProfile = await UserProfile.findOne({
+            user: user
+        });
+
+        if (!userProfile) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        // Check campaign
         const existingCampaign = await Campaign.findById(campaign);
 
         if (!existingCampaign) {
@@ -131,57 +135,50 @@ const createJointRequest = async (req, res) => {
             });
         }
 
-
-        const joinExist = await JoinRequest.findOne({
-            user,
-            campaign
-        });
-
-        /*
-        if (joinExist) {
-            return res.status(400).json({
-                message: "You have already requested this campaign"
-            });
-        }
-
-        */
-
+        // Create request
         const request = await JoinRequest.create({
-            user,
-            campaign,
+            user: user,
+            userProfile: userProfile._id,
+            campaign: campaign,
             status: "pending"
         });
 
+        const populatedRequest = await JoinRequest.findById(request._id)
+                .populate("campaign", "title")
+                .populate("user", "email")
+                .populate("userProfile", "name gender age");
 
         // Socket.IO
         const io = getIO();
 
-        console.log(
-    "📤 Sending notification to NGO:",
-    existingCampaign.ngo.toString()
+       io.to(existingCampaign.ngo.toString()).emit(
+    "newJoinRequest",
+    {
+        message: "New join request received",
+
+        requestId: populatedRequest._id,
+
+        campaignId: populatedRequest.campaign?._id,
+        campaignTitle: populatedRequest.campaign?.title,
+
+        userId: populatedRequest.user?._id,
+        userEmail: populatedRequest.user?.email,
+
+        userProfileId: populatedRequest.userProfile?._id,
+        userName: populatedRequest.userProfile?.name,
+        userGender: populatedRequest.userProfile?.gender,
+        userAge: populatedRequest.userProfile?.age,
+
+        status: populatedRequest.status
+    }
 );
-
-        io.to(existingCampaign.ngo.toString()).emit(
-            "newJoinRequest",
-            {
-                message: "New join request received",
-                requestId: request._id,
-                campaignId: campaign,
-                userId: user
-            }
-        );
-
-        console.log("✅ Notification emitted");
-
 
         return res.status(201).json({
             message: "join request sent",
             request
         });
 
-    }
-    catch (err) {
-
+    } catch (err) {
         console.log(err);
 
         return res.status(500).json({
@@ -191,54 +188,77 @@ const createJointRequest = async (req, res) => {
 };
 
 const getNgoJoinRequests = async (req, res) => {
+
     try {
         const { ngoId } = req.params;
 
-        console.log("🏢 NGO ID:", ngoId);
+        //console.log("🏢 NGO ID:", ngoId);
 
         const campaigns = await Campaign.find({
             ngo: ngoId
         }).select("_id");
 
-        console.log("📋 NGO campaigns:", campaigns);
+        //console.log("📋 NGO campaigns:", campaigns);
 
         const campaignIds = campaigns.map(campaign => campaign._id);
 
-        console.log("🆔 Campaign IDs:", campaignIds);
+        //console.log("🆔 Campaign IDs:", campaignIds);
 
         const requests = await JoinRequest.find({
             campaign: { $in: campaignIds },
             status: "pending"
-        });
+        })
+        .populate("campaign", "title")
+        .populate("user", "email")
+        .populate("userProfile", "name gender");
+        
+        
 
-        console.log("📥 EXISTING REQUESTS:", requests);
-        console.log("📊 COUNT:", requests.length);
+        console.log(
+            "POPULATED REQUESTS:",
+            JSON.stringify(requests, null, 2)
+        );
+        
+
+        //console.log("📥 EXISTING REQUESTS:", requests);
+        //console.log("📊 COUNT:", requests.length);
 
         const allRequests = await JoinRequest.find({
-    status: "pending"
-}).select("_id campaign user status");
+                status: "pending"
+        }).select("_id campaign user status");
 
-console.log("🔎 ALL PENDING REQUESTS:", allRequests);
+        //console.log("🔎 ALL PENDING REQUESTS:", allRequests);
 
         
-const formattedRequests = requests.map((request) => ({
-    message: "New join request received",
-    requestId: request._id,
-    campaignId: request.campaign?._id,
-    campaignTitle: request.campaign?.title,
-    userId: request.user?._id,
-    userName: request.user?.name,
-    userEmail: request.user?.email,
-    status: request.status
-}));
+        const formattedRequests = requests.map((request) => ({
+            message: "New join request received",
 
-res.status(200).json(formattedRequests);
-    } catch (error) {
-        console.log("❌ ERROR:", error);
-        res.status(500).json({
-            message: "Failed to fetch join requests"
-        });
-    }
+            requestId: request._id,
+
+            campaignId: request.campaign?._id,
+            campaignTitle: request.campaign?.title,
+
+            userId: request.user?._id,
+            userEmail: request.user?.email,
+
+            userProfileId: request.userProfile?._id,
+            userName: request.userProfile?.name,
+            userGender: request.userProfile?.gender,
+
+            status: request.status
+        }));
+
+        console.log("📦 FORMATTED REQUESTS:",
+            JSON.stringify(formattedRequests, null, 2)
+        );
+        res.status(200).json(formattedRequests);
+    } 
+        catch (error) {
+            console.log("❌ ERROR:", error);
+            res.status(500).json({
+                message: "Failed to fetch join requests"
+            });
+        }
 };
 
 module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign , getNgoJoinRequests}
