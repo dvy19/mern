@@ -113,8 +113,6 @@ const getUserProfile=async(req,res)=>{
             message: "Server error"
         });
     }
-
-
 }
 
 

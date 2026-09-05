@@ -24,7 +24,7 @@ const Join = () => {
     const getProfile=async()=>{
 
         try{
-            const data=await authService.getUser()
+            const data=await authService.getUser(id)
 
             setUser(data.user)
             console.log(data.user)

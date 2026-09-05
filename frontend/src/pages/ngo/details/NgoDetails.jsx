@@ -9,7 +9,7 @@ const NgoDetails = () => {
     title: '',
     bio: '',
     category: '',
-    established: 0,
+    established: '',
   });
 
   const handleChange = (e) => {
@@ -101,11 +101,11 @@ const NgoDetails = () => {
           </div>
 
           <div className="ngo-group">
-            <label htmlFor="establishedYear">Established Year</label>
+            <label htmlFor="established">Established Year</label>
             <input
-              type="number"
-              id="establishedYear"
-              name="establishedYear"
+              type="text"
+              id="established"
+              name="established"
               placeholder="e.g. 2015"
               min="1800"
               max={new Date().getFullYear()}

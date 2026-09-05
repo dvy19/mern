@@ -9,15 +9,22 @@ import CampaignCard from '../../components/CampaignCard';
 const Home = () => {
 
   const [ngo, setNgo] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [ngoLoading, setNgoLoading] = useState(false);
+const [campLoading, setCampLoading] = useState(false);
+
+const [ngoError, setNgoError] = useState(false);
+const [campError, setCampError] = useState(false);
+
+  const [active, setActive] = useState(undefined);
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
 
 
   const navigate=useNavigate()
 
   const getNgo = async () => {
-    setLoading(true);
-    setError(false);
+    setNgoLoading(true);
+    setNgoError(false);
 
     try {
 
@@ -31,9 +38,9 @@ const Home = () => {
 
     } catch (err) {
       console.log(`${err}`);
-      setError(true);
+      setNgoError(true);
     } finally {
-      setLoading(false);
+      setNgoLoading(false);
     }
   };
 
@@ -43,23 +50,33 @@ const Home = () => {
 
   const[camp,setCamp]=useState([]);
   
-  const getCamp=async(active )=>{
-  
-          try{
-  
-              const res=await ngoService.getAllCampaigns(active)
-  
-              setCamp(res.campaign)
-              console.log(res.campaign)
-          }
-          catch(err){
-              console.log(`${err}`)
-          }
-      }
-  
-      useEffect((active)=>{
-          getCamp(active)
-      }, [])
+  const getCamp = async () => {
+    try {
+        setCampLoading(true);
+        setCampError(false);
+
+        const data = await ngoService.getAllCampaigns(
+            active,
+            undefined,   // ngoId
+            page,
+            5
+        );
+
+        setCamp(data.campaign);
+        setTotalPages(data.totalPages);
+
+        console.log(data);
+
+    } catch (error) {
+        console.log(error);
+        setCampError(true);
+    } finally {
+        setCampLoading(false);
+    }
+};
+  useEffect(() => {
+    getCamp();
+}, [active, page]);
   
 
   return (
@@ -69,10 +86,10 @@ const Home = () => {
       
       <h2 className="home-title">Featured NGOs</h2>
 
-      {loading && <p className="status-message">Loading NGOs...</p>}
-      {error && <p className="status-message error">Failed to load NGOs. Please try again later.</p>}
+      {ngoLoading && <p className="status-message">Loading NGOs...</p>}
+      {ngoError && <p className="status-message error">Failed to load NGOs. Please try again later.</p>}
 
-      {!loading && !error && (
+      {!ngoLoading && !ngoError && (
         <div className="ngo-list-horizontal">
           {ngo.map((item) => (
             <NgoCard 
@@ -87,13 +104,15 @@ const Home = () => {
 
       <h2 className="home-title">Featured Campaigns</h2>
 
-      {loading && <p className="status-message">Loading Campaigns...</p>}
-      {error && <p className="status-message error">Failed to load Campaigns. Please try again later.</p>}
+      {campLoading && <p className="status-message">Loading Campaigns...</p>}
+      {campError && <p className="status-message error">Failed to load Campaigns. Please try again later.</p>}
 
       <button className='btn-header' onClick={()=>getCamp(true)}>Active</button>
       <button className='btn-header' onClick={()=>getCamp()}>All</button>
 
-      {!loading && !error && (
+      {!campLoading && !campError && (
+        <>
+
         <div className="ngo-list-horizontal">
           {camp.map((item) => (
               <CampaignCard
@@ -102,6 +121,31 @@ const Home = () => {
               />
           ))}
         </div>
+
+         <div className="pagination">
+
+            <button
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+            >
+                Previous
+            </button>
+
+            <span>
+                Page {page} of {totalPages}
+            </span>
+
+            <button
+                disabled={page === totalPages}
+                onClick={() => setPage(page + 1)}
+            >
+                Next
+            </button>
+
+        </div>
+        </>
+
+        
       )}
     </section>
    </>

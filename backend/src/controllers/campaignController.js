@@ -55,7 +55,7 @@ const getAllCampaign=async(req,res)=>{
     try{
 
 
-        const {active , ngoId }=req.query;
+        const {active , ngoId , page = 1, limit = 5 }=req.query;
 
         console.log(ngoId)
 
@@ -71,18 +71,28 @@ const getAllCampaign=async(req,res)=>{
             filter.ngo = ngoId;
         }
 
-         console.log("NGO ID:", ngoId);
-        console.log("Filter:", filter);
+        //console.log("NGO ID:", ngoId);
+        //console.log("Filter:", filter);
+
+        const skip = (page - 1) * limit;
+
+        const campaign = await Campaign.find(filter)
+            .populate("ngo")
+            .skip(skip)
+            .limit(Number(limit));
+
+        const totalCampaigns = await Campaign.countDocuments(filter);
 
 
-        const campaign=await Campaign.find(filter).populate("ngo");
 
 
-
-        res.status(200).json({
-            count:campaign.length,
+         res.status(200).json({
+            count: campaign.length,
+            totalCampaigns,
+            currentPage: Number(page),
+            totalPages: Math.ceil(totalCampaigns / limit),
             campaign
-        })
+        });
     }
      catch (error) {
         res.status(500).json({
