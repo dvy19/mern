@@ -19,7 +19,13 @@ const endpoints={
     
     EDIT_USER_PROFILE:"auth/edit-profile",
 
+    GET_USER_PROFILE_BY_ID:(userId)=>`auth/get-user-profile/${userId}`,
+
     DELETE_USER_PROFILE:"auth/delete-profile",
+
+    GET_ACCEPTED_REQ:(ngoId)=>`/ngo/accepted-req/${ngoId}`,
+
+    ACCEPT_JOIN:(requestId)=>`ngo/accept-join/${requestId}`,
 
 
    GET_USER_PROFILE:"auth/get-user",

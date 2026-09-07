@@ -37,6 +37,34 @@ const ngoSchema = new mongoose.Schema({
     }
 });
 
+const review=new mongoose.Schema(
+
+    {
+        ngoId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"NGO",
+            required:true
+        },
+
+        userProfile: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "UserProfile",
+            required: true
+        },
+        content:{
+            type:String
+        }
+
+    },
+
+    {
+        timestamps:true
+    }
+
+);
+
+const ngoReview=mongoose.model("Review",review)
+
 const NGO = mongoose.model("NGO", ngoSchema);
 
 module.exports = NGO;

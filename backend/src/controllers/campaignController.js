@@ -197,6 +197,36 @@ const createJointRequest = async (req, res) => {
     }
 };
 
+const acceptJoinRequest = async (req, res) => {
+    try {
+        const { requestId } = req.params;
+
+        const request = await JoinRequest.findById(requestId);
+
+        if (!request) {
+            return res.status(404).json({
+                message: "Join request not found"
+            });
+        }
+
+        request.status = "accepted";
+
+        await request.save();
+
+        res.status(200).json({
+            message: "Join request accepted",
+            request
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
 const getNgoJoinRequests = async (req, res) => {
 
     try {
@@ -216,7 +246,7 @@ const getNgoJoinRequests = async (req, res) => {
 
         const requests = await JoinRequest.find({
             campaign: { $in: campaignIds },
-            status: "pending"
+            status: ["pending"]
         })
         .populate("campaign", "title")
         .populate("user", "email")
@@ -271,4 +301,33 @@ const getNgoJoinRequests = async (req, res) => {
         }
 };
 
-module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign , getNgoJoinRequests}
+const getAcceptedJoinRequests = async (req, res) => {
+    try {
+        const { ngoId } = req.params;
+
+        const campaigns = await Campaign.find({
+            ngo: ngoId
+        }).select("_id");
+
+        const campaignIds = campaigns.map(campaign => campaign._id);
+
+        const requests = await JoinRequest.find({
+            campaign: { $in: campaignIds },
+            status: "accepted"
+        })
+        .populate("campaign", "title")
+        .populate("user", "email")
+        .populate("userProfile", "name gender");
+
+        res.status(200).json(requests);
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Failed to fetch accepted requests"
+        });
+    }
+};
+
+module.exports={createCampaign , createJointRequest , getAllCampaign , getSingleCampaign , getNgoJoinRequests , acceptJoinRequest , getAcceptedJoinRequests}

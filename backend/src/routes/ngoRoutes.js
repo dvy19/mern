@@ -7,11 +7,12 @@ const {
     createNgo , 
     getAllNgos,
     getNgoById,
+    createReview
     
 }=require("../controllers/ngoControllers")
 
-const {createCampaign , getAllCampaign , getNgoJoinRequests,
-    getSingleCampaign}=require("../controllers/campaignController")
+const {createCampaign , getAllCampaign , getNgoJoinRequests, getAcceptedJoinRequests,
+    getSingleCampaign , acceptJoinRequest}=require("../controllers/campaignController")
 
 const {createJointRequest}=require("../controllers/campaignController")
 
@@ -29,8 +30,16 @@ router.post("/create-campaign",authMiddleware,createCampaign)
 router.get('/getAllCampaigns' ,  getAllCampaign)
 router.get('/getSingleCampaign/:id' , getSingleCampaign)
 
+router.post(
+    "/accept-join/:requestId",
+    acceptJoinRequest
+);
+
+router.post("/accepted-req/:ngoId" ,getAcceptedJoinRequests)
 
 router.post('/create-join/:campaignId',authMiddleware,createJointRequest)
+
+router.post('/create-reviews' , authMiddleware , createReview )
 
 router.get("/ngo-join/:ngoId", getNgoJoinRequests);
 router.get("/:id",getNgoById)

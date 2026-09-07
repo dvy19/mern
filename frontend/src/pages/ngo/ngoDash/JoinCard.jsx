@@ -1,7 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './JoinCard.css';
 
-const JobRequestCard = ({ title, userEmail , userName, userGender}) => {
+const JobRequestCard = ({ title, userEmail , userName, userGender , userId, campaignId, requestId}) => {
+
+  const navigate=useNavigate()
+
   return (
     <div className="job-card">
       <div className="job-card-content">
@@ -14,7 +18,7 @@ const JobRequestCard = ({ title, userEmail , userName, userGender}) => {
         <span className="job-card-date">{userName}</span>
 
       </div>
-      <button className="job-card-btn" >
+      <button className="job-card-btn"  onClick={()=>navigate(`/join-details/${userId}/${campaignId}/${requestId}`)}>
         View Details
       </button>
     </div>

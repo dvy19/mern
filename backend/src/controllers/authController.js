@@ -11,6 +11,7 @@ common res methods
 
 // a js library,  used to hash password and store in db
 // during login, it matches the password with stored in db
+
 const bcrypt = require("bcryptjs");
 
 
@@ -45,6 +46,7 @@ const register = async (req, res) => {
         // findOne() is a Mongoose method used to search MongoDB for one document
         // Search the User collection and give me the first document where email is abc@gmail.com.
         // find is used for an array of matching documents
+        
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {

@@ -30,6 +30,11 @@ const authService={
         return data.data
     },
 
+    getUserById:async(userId)=>{
+        const data=await api.get(`${endpoints.GET_USER_PROFILE_BY_ID(userId)}`)
+        return data.data
+    },
+
 
     
     deleteUser:async()=>{

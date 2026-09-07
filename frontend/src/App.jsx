@@ -6,7 +6,7 @@ import Login from './pages/Login'
 import Home from './pages/home/Home'
 import Profile from './pages/profile/Profile'
 
-
+import JoinDetails from '../src/pages/join/JoinDetails'
 
 import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import NgoDetailCard from './components/NgoDetailsCard'
@@ -53,6 +53,8 @@ function App() {
         <Route path='/ngo-details' element={<NgoDetails/>}/>
 
         <Route path='/create-camp' element={<CreateCampaign/>}/>
+
+        <Route path='/join-details/:userId/:campaignId/:requestId' element={<JoinDetails></JoinDetails>}></Route>
 
 
 

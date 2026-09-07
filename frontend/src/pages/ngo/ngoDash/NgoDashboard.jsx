@@ -125,10 +125,10 @@ useEffect(() => {
 
 
             console.log("📥 RESPONSE DATA:", response.data);
-console.log("👤 NAME:", response.data[3]?.userName);
-console.log("⚧ GENDER:", response.data[3]?.userGender);
-console.log("📧 EMAIL:", response.data[3]?.userEmail);
-console.log("📢 CAMPAIGN:", response.data[3]?.campaignTitle);
+            console.log("👤 NAME:", response.data[3]?.userName);
+            console.log("⚧ GENDER:", response.data[3]?.userGender);
+            console.log("📧 EMAIL:", response.data[3]?.userEmail);
+            console.log("📢 CAMPAIGN:", response.data[3]?.campaignTitle);
 
             console.log("📥 Existing requests:", response.data);
 
@@ -187,6 +187,9 @@ console.log("📢 CAMPAIGN:", response.data[3]?.campaignTitle);
                 userName={notification.userName}
                 userEmail={notification.userEmail}
                 userGender={notification.userGender}
+                userId={notification.userId}
+                campaignId={notification.campaignId}
+                requestId={notification.requestId}
                 status={notification.status}
             />
         </div>

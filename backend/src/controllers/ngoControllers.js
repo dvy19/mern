@@ -1,7 +1,10 @@
 
 const Ngo=require("../models/Ngo")
 
+const Review=require("../models/Ngo")
+
 const cloudinary = require("../config/cloudinary");
+const { UserProfile } = require("../models/User");
 
 const createNgo=async(req,res)=>{
 
@@ -81,7 +84,44 @@ const createNgo=async(req,res)=>{
 
     }
 }
+const createReview = async (req, res) => {
+    try {
 
+        const content = req.body.content;
+        const userId = req.user.userId;
+        const ngoId = req.body.ngoId;
+
+        const userProfile = await UserProfile.findOne({
+            user: userId
+        });
+
+        if (!userProfile) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        const review = await Review.create({
+            userProfile: userProfile._id,
+            ngoId: ngoId,
+            content: content
+        });
+
+        res.status(201).json({
+            message: "Review created",
+            review
+        });
+
+    } 
+    catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+
+};
 // get all NGOs using .find
 
 const getAllNgos = async (req, res) => {
@@ -158,5 +198,6 @@ const getNgoById = async (req, res) => {
 module.exports={
     createNgo,
     getAllNgos,
-    getNgoById
+    getNgoById,
+    createReview
 }

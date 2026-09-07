@@ -43,6 +43,20 @@ export const ngoService={
         return res.data
     },
 
+    acceptJoin:async(requestId )=>{
+
+        const data=await api.post(`${endpoints.ACCEPT_JOIN(requestId)}`)
+
+        return data.data
+
+    },
+
+    getAcceptedReq:async(ngoId)=>{
+        const data=await api.post(`${endpoints.GET_ACCEPTED_REQ(ngoId)}`)
+
+        return data.data
+    },
+
     getSingleCamp:async(id)=>{
 
         const data=await api.get(`${endpoints.GET_SINGLE_CAMP(id)}`)

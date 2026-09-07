@@ -26,6 +26,7 @@ const ai=require('./routes/aiRoutes')
 // creates the express application
 const app = express();
 
+// "When a request comes to this HTTP server, let the Express application handle it."
 const server=http.createServer(app)
 
 initializeSocket(server);
@@ -54,7 +55,7 @@ const ngoRoutes = require("./routes/ngoRoutes");
 
 app.use("/api/ngo", ngoRoutes);
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
     res.json({
         message: "Auth API is running"
     });

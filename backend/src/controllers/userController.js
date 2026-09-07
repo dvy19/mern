@@ -115,6 +115,36 @@ const getUserProfile=async(req,res)=>{
     }
 }
 
+const getUserProfileById = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        console.log("REQUESTED USER ID:", userId);
+
+        const user = await UserProfile.findOne({
+            user: userId
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Profile retrieved",
+            user
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
 
 const editUserProfile = async (req, res) => {
     try {
@@ -209,4 +239,4 @@ const deleteUserProfile = async (req, res) => {
 };
 
 
-module.exports={createUserProfile , getUserProfile , editUserProfile , deleteUserProfile}
+module.exports={createUserProfile , getUserProfile , editUserProfile , deleteUserProfile , getUserProfileById}
