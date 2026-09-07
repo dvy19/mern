@@ -7,7 +7,8 @@ const {
     createNgo , 
     getAllNgos,
     getNgoById,
-    createReview
+    createReview,
+    getReviews
     
 }=require("../controllers/ngoControllers")
 
@@ -40,6 +41,8 @@ router.post("/accepted-req/:ngoId" ,getAcceptedJoinRequests)
 router.post('/create-join/:campaignId',authMiddleware,createJointRequest)
 
 router.post('/create-reviews' , authMiddleware , createReview )
+router.post('/get-reviews/:ngoId' , authMiddleware , getReviews )
+
 
 router.get("/ngo-join/:ngoId", getNgoJoinRequests);
 router.get("/:id",getNgoById)

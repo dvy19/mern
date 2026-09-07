@@ -122,14 +122,42 @@ const createReview = async (req, res) => {
     }
 
 };
+
+const getReviews=async(req,res)=>{
+
+    try{
+
+        const ngoId=req.params.ngoId
+
+        const reviews=await Review.find({
+            ngoId:ngoId
+        })
+        .populate("userProfile")
+
+        res.status(201).json({
+            message:"review get",
+            reviews
+        })
+
+    }
+
+    catch(err){
+        console.log(`${err}`)
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
+    }
+
+
+}
 // get all NGOs using .find
 
 const getAllNgos = async (req, res) => {
     try {
 
-
         // /api/ngos?name=helping
-
         // req.query.name = helping
         const{name,category}=req.query;
 
@@ -199,5 +227,6 @@ module.exports={
     createNgo,
     getAllNgos,
     getNgoById,
-    createReview
+    createReview,
+    getReviews
 }
