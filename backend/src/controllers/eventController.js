@@ -88,12 +88,16 @@ const createActivity=async(req,res)=>{
 
         console.log(userProfile)
 
+        const reminderAt = new Date(date);
+        reminderAt.setDate(reminderAt.getDate() + 3);
+
 
         const activity=await Activity.create({
             title,
             userId:userProfile._id,
             image:image,
-            date
+            date,
+            reminderAt
         })
 
         res.status(200).json({
@@ -132,6 +136,39 @@ const getActivity=async(req,res)=>{
 
 
 }
+
+
+const getNotifications = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        const userProfile = await UserProfile.findOne({ userId });
+
+        if (!userProfile) {
+            return res.status(404).json({
+                message: "User profile not found"
+            });
+        }
+
+        const notifications = await Notification.find({
+            userId: userProfile._id
+        }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            message: "Notifications found",
+            notifications
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+};
+
+
 module.exports=createEvent
 module.exports=createActivity
 module.exports=getActivity

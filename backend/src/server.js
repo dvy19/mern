@@ -11,6 +11,7 @@ const {
     initializeSocket
 } = require("../src/socket");
 
+const startActivityReminderJob = require('./jobs/activityReminder');
 
 require("dotenv").config();
 
@@ -61,6 +62,7 @@ app.get("/login", (req, res) => {
     });
 });
 
+startActivityReminderJob()
 const PORT = process.env.PORT || 5000;
 
 /*

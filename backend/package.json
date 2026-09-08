@@ -24,6 +24,7 @@
     "langchain": "^1.5.10",
     "mongoose": "^9.9.4",
     "multer": "^2.3.0",
+    "node-cron": "^4.6.0",
     "socket.io": "^4.8.3",
     "zod": "^4.5.4"
   },
