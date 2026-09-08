@@ -27,7 +27,6 @@ const joinRequest=new mong.Schema({
         type:mong.Schema.Types.ObjectId,
         ref:"UserProfile",
         required:true
-
     },
 
 

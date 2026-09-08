@@ -42,6 +42,39 @@ const event=new mong.Schema({
 
 })
 
+
+const activity=new mongSchema(
+    {
+
+        title:{
+            type:String
+        },
+
+        image:{
+            type:String
+        },
+
+        userId:{
+            type:mongoose.Types.Schema.ObjectId,
+            required:true,
+            ref:"UserProfile"
+        },
+
+        date:{
+            type:Date,
+            required:true
+        },
+
+    },
+    {
+        timeStamps:true
+    }
+
+);
+
 const Event=new mong.model("Event" ,event )
 
+const Activity=mong.model("Activity" , activity)
+
 module.exports=Event
+module.exports=Activity
